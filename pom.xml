@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- The Basics -->
+  <groupId>dirty-mockito</groupId>
+  <artifactId>dirty-mockito</artifactId>
+  <name>Dirty Mockito</name>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <description>Dirty Mockito: JUnit, Mockito, and then some</description>
+  <url>http://code.google.com/p/dirty-mockito/</url>
+  
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>LICENSE.txt</url>
+    </license>
+  </licenses>
+
+  <!-- SVN Configuration -->
+  <scm>
+    <connection>scm:svn:http://dirty-mockito.googlecode.com/svn/trunk</connection>
+    <developerConnection>scm:svn:https://dirty-mockito.googlecode.com/svn/trunk</developerConnection>
+    <url>http://code.google.com/p/dirty-mockito/source/browse/#svn/trunk</url>
+  </scm>
+
+  <dependencies>
+    <!--
+      Unit testing dependencies
+    -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.7</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Configure the Maven Resources plugin to use UTF-8 encoding -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <!-- Set Maven to compile for Java 5.0 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <!-- Configure the Maven Checkstyle plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>etc/checkstyle.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <failsOnError>true</failsOnError>
+        </configuration>
+      </plugin>
+      <!-- Configure the Maven license plugin -->
+      <plugin>
+        <groupId>com.google.code.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.4.0</version>
+        <configuration>
+          <header>etc/license-header.txt</header>
+          <includes>
+            <include>src/**</include>
+          </includes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <developers>
+    <developer>
+      <id>aisrael</id>
+      <name>Alistair A. Israel</name>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <email>aisrael@gmail.com</email>
+    </developer>
+  </developers>
+
+</project>
