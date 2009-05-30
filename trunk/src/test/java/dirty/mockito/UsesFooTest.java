@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 /**
+ * Ostenibly a test for {@link UsesFoo} but actually exercises {@link dirty.mockito.ActiveTest}.
  *
  * @author Alistair A. Israel
  */
