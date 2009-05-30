@@ -95,9 +95,8 @@ public class ActiveTest<T> {
     /**
      *
      */
-    @SuppressWarnings("unchecked")
     public ActiveTest() {
-        this.classUnderTest = (Class) determineTypeParameter();
+        this.classUnderTest = determineTypeParameter();
         final AutowiredAnnotationBeanPostProcessor aabpp =
                 new AutowiredAnnotationBeanPostProcessor();
         aabpp.setBeanFactory(defaultListableBeanFactory);
@@ -107,7 +106,8 @@ public class ActiveTest<T> {
     /**
      * @return the Type parameter to our generic base class
      */
-    private Type determineTypeParameter() {
+    @SuppressWarnings("unchecked")
+    private Class<T> determineTypeParameter() {
         Class<?> specificClass = this.getClass();
         Type genericSuperclass = specificClass.getGenericSuperclass();
         while (!(genericSuperclass instanceof ParameterizedType)
@@ -118,7 +118,7 @@ public class ActiveTest<T> {
         final ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
 
         final Type firstTypeParameter = parameterizedType.getActualTypeArguments()[0];
-        return firstTypeParameter;
+        return (Class<T>) firstTypeParameter;
     }
 
     /**
