@@ -31,6 +31,8 @@ import org.mockito.MockitoAnnotations;
  * mocked using {@link MockitoAnnotations#initMocks(Object)}.
  *
  * @author Alistair A. Israel
+ * @see <a href="http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html" target="_blank>&#064;Mock</a>
+ * @since 0.1
  */
 public class MagicMocker {
 

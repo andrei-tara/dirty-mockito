@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Ostensibly a test for {@link Adder}, but actually exercises {@link dirty.mockito.MagicTest}.
  *
  * @author Alistair A. Israel
  */

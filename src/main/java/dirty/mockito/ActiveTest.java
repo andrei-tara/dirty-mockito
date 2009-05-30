@@ -25,13 +25,12 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * and injection of mocks. Uses reflection to instantiate objects, Mockito to
  * perform mocking of elements annotated with <a href=
  * "http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html"
- * ><code>@Mock</code></a>, and uses an internal Spring BeanFactory to perform
- * injection of mocks into elements annotated with
- * <a href="http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/beans/factory/annotation/Autowired.html">.
+ * ><code>&#064;Mock</code></a>, and uses an internal Spring BeanFactory to
+ * perform injection of mocks into elements annotated with <code>&#064;Autowired</code>.
  * </p>
  * <p>
- * Suppose we have a JPA DAO class, that depends upon an <code>@Autowired</code>
- * <code>EntityManager</code>:
+ * Suppose we have a JPA DAO class, that depends upon an
+ * <code>&#064;Autowired</code> <code>EntityManager</code>:
  * </p>
  *
  * <pre>
@@ -49,36 +48,41 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * <code>ActiveTest</code>, we simply extend
  * <code>ActiveTest&lt;WidgetDao&gt;</code>, declare a field of type
  * <code>WidgetDao</code>, declare another field of type
- * <code>Entitymanager</code> and annotate that using <code>@Mock</code>.
+ * <code>Entitymanager</code> and annotate that using <code>&#064;Mock</code>.
  *
  * <pre>
  * public class WidgetDaoTest extends ActiveTest&lt;WidgetDao&gt; {
  *   private WidgetDao widgetDao;
+ *
  *   &#064;Mock
  *   private EntityManager em;
+ *
  *   &#064;Test
  *   public void testFind() {
  *     widgetDao.find(123L);
  *     Mockito.verify(em).find(Entity.class, 123L);
  *   }
+ * }
  * </pre>
  * <p>
  * That's it. ActiveTest takes care of creating the mocks for fields annotated
- * <code>@Mock</code>, instantiating the class under test (
+ * <code>&#064;Mock</code>, instantiating the class under test (
  * <code>WidgetDao</code>), and injecting the mock objects into
- * <code>@Autowired</code> fields.
+ * <code>&#064;Autowired</code> fields.
  * </p>
  * <p>
- * Because Spring itself is used to inject <code>@Autowired</code> dependencies,
- * <code>ActiveTest</code> supports field, setter and constructor-based
- * injection.
+ * Because Spring itself is used to inject <code>&#064;Autowired</code>
+ * dependencies, <code>ActiveTest</code> supports field, setter and
+ * constructor-based injection.
  * </p>
  *
  * @param <T>
  *            the type of the class to instantiate and inject mocks into
  * @author Alistair A. Israel
- * @see <a href=&quot;http://code.google.com/p/dirty-mockito/>dirty-mockito</a>;
- *      on Google Code
+ * @see <a href="http://code.google.com/p/dirty-mockito/" target="_blan >dirty-mockito</a>
+ * @see <a href="http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/beans/factory/annotation/Autowired.html"
+ *            target="_blank>&#064;Autowired</a>
+ * @see <a href="http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html" target="_blank>&#064;Mock</a>
  * @since 0.1
  */
 public class ActiveTest<T> {

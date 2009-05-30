@@ -26,6 +26,11 @@
     <url>http://code.google.com/p/dirty-mockito/source/browse/#svn/trunk</url>
   </scm>
 
+  <properties>
+    <!-- Use UTF-8 as the default source encoding -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <dependencies>
     <!-- Spring Framework -->
     <dependency>
@@ -63,14 +68,6 @@
 
   <build>
     <plugins>
-      <!-- Configure the Maven Resources plugin to use UTF-8 encoding -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
       <!-- Set Maven to compile for Java 5.0 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -130,6 +127,21 @@
     </extensions>
 
   </build>
+
+  <reporting>
+    <plugins>
+      <!-- Generate Javadocs as part of project reports -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <profiles>
     <profile>

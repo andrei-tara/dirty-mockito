@@ -14,9 +14,12 @@ import java.lang.reflect.Type;
 import org.junit.Before;
 
 /**
+ * A 'proof of concept' for {@link dirty.mockito.ActiveTest}.
+ *
  * @param <T>
  *            the type under test
  * @author Alistair A. Israel
+ * @since 0.1
  */
 public class MagicTest<T> {
 

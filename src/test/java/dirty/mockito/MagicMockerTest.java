@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 /**
- * JUnit test for {@link MagicMocker}.
+ * JUnit test for {@link dirty.mockito.MagicMocker}.
  *
  * @author Alistair A. Israel
  */
@@ -24,7 +24,7 @@ public class MagicMockerTest extends MagicMocker {
     private Foo mockFoo;
 
     /**
-     * Test for {@link MagicMocker#setupMocks()}.
+     * Test for {@link dirty.mockito.MagicMocker#setupMocks()}.
      */
     @Test
     public final void testSetupMocks() {

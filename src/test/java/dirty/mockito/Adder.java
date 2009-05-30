@@ -8,6 +8,7 @@
 package dirty.mockito;
 
 /**
+ * A basic class to test.
  *
  * @author Alistair A. Israel
  */
