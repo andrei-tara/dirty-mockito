@@ -7,15 +7,15 @@
  */
 package dirty.mockito;
 
-import org.junit.Before;
-import org.mockito.MockitoAnnotations;
+import org.junit.Rule;
+
+import dirty.mockito.junit.interceptors.MockitoInterceptor;
 
 /**
  * <p>
  * A convenience base class for JUnit + Mockito tests. Lets you write, for
  * example:
  * </p>
- *
  * <pre>
  * public class MyTest extends MagicMocker {
  *     &#064;Mock
@@ -28,24 +28,24 @@ import org.mockito.MockitoAnnotations;
  * </pre>
  * <p>
  * Where the fields annotated with {@link org.mockito.Mock} are automatically
- * mocked using {@link MockitoAnnotations#initMocks(Object)}.
+ * mocked using a {@link MockitoInterceptor}.
  *
  * @author Alistair A. Israel
- * @see <a href="http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html" target="_blank>&#064;Mock</a>
+ * @see <a href=
+ *      "http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html"
+ *      target="_blank>&#064;Mock</a>
  * @since 0.1
  */
+// CHECKSTYLE:OFF
 public class MagicMocker {
+    // CHECKSTYLE:ON
 
     /**
-     * Called by the JUnit test runner before any subclass @Before methods,
-     * setupMocks() uses MockitoAnnotations.initMocks() on the actual test class
-     * to search for and mock any fields annotated with {@link org.mockito.Mock}
-     * .
      *
-     * @see MockitoAnnotations#initMocks(Object)
      */
-    @Before
-    public final void setupMocks() {
-        MockitoAnnotations.initMocks(this);
-    }
+    @Rule
+    // CHECKSTYLE:OFF
+    public final MockitoInterceptor mockitoInterceptor = new MockitoInterceptor();
+    // CHECKSTYLE:ON
+
 }
