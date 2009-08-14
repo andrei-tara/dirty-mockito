@@ -10,6 +10,7 @@
 <module name="Checker">
     <property name="severity" value="warning"/>
     <module name="TreeWalker">
+        <module name="FileContentsHolder"/>
         <module name="ArrayTypeStyle"/>
         <module name="FinalParameters"/>
         <module name="GenericIllegalRegexp">
@@ -102,4 +103,5 @@
         <module name="NPathComplexity"/>
         <module name="BooleanExpressionComplexity"/>
     </module>
+    <module name="SuppressionCommentFilter"/>
 </module>

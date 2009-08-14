@@ -7,26 +7,21 @@
  */
 package dirty.mockito;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import org.junit.Before;
-import org.mockito.configuration.AnnotationEngine;
-import org.mockito.exceptions.base.MockitoException;
-import org.mockito.internal.configuration.GlobalConfiguration;
-import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.junit.Rule;
+
+import dirty.mockito.junit.interceptors.ActiveTestInterceptor;
 
 /**
  * <p>
  * JUnit 4 test parameterized base class that performs instantiation, mocking
- * and injection of mocks. Uses reflection to instantiate objects, Mockito to
+ * and injection of mocks. Uses an internal {@link ActiveTestInterceptor} to
  * perform mocking of elements annotated with <a href=
  * "http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html"
- * ><code>&#064;Mock</code></a>, and uses an internal Spring BeanFactory to
- * perform injection of mocks into elements annotated with <code>&#064;Autowired</code>.
+ * ><code>&#064;Mock</code></a> then inject those mocks into fields (in the
+ * object under test) annotated with <code>&#064;Autowired</code>.
  * </p>
  * <p>
  * Suppose we have a JPA DAO class, that depends upon an
@@ -79,28 +74,31 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * @param <T>
  *            the type of the class to instantiate and inject mocks into
  * @author Alistair A. Israel
- * @see <a href="http://code.google.com/p/dirty-mockito/" target="_blan >dirty-mockito</a>
+ * @see <a href="http://code.google.com/p/dirty-mockito/" target="_blan
+ *      >dirty-mockito</a>
  * @see <a href="http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/beans/factory/annotation/Autowired.html"
- *            target="_blank>&#064;Autowired</a>
- * @see <a href="http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html" target="_blank>&#064;Mock</a>
+ *      target="_blank>&#064;Autowired</a>
+ * @see <a href=
+ *      "http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html"
+ *      target="_blank>&#064;Mock</a>
  * @since 0.1
  */
 public class ActiveTest<T> {
 
-    private final DefaultListableBeanFactory defaultListableBeanFactory =
-            new DefaultListableBeanFactory();
-
-    private final Class<T> classUnderTest;
+    /**
+     * The {@link ActiveTestInterceptor} that does all the mojo.
+     */
+    @Rule
+    // CHECKSTYLE:OFF
+    public final ActiveTestInterceptor<T> activeTestInterceptor;
+    // CHECKSTYLE:ON
 
     /**
      *
      */
     public ActiveTest() {
-        this.classUnderTest = determineTypeParameter();
-        final AutowiredAnnotationBeanPostProcessor aabpp =
-                new AutowiredAnnotationBeanPostProcessor();
-        aabpp.setBeanFactory(defaultListableBeanFactory);
-        defaultListableBeanFactory.addBeanPostProcessor(aabpp);
+        final Class<T> classUnderTest = determineTypeParameter();
+        this.activeTestInterceptor = ActiveTestInterceptor.thatWorksOn(classUnderTest);
     }
 
     /**
@@ -120,93 +118,4 @@ public class ActiveTest<T> {
         final Type firstTypeParameter = parameterizedType.getActualTypeArguments()[0];
         return (Class<T>) firstTypeParameter;
     }
-
-    /**
-     * @return the classUnderTest
-     */
-    public final Class<T> getClassUnderTest() {
-        return classUnderTest;
-    }
-
-    /**
-     *
-     */
-    @Before
-    public final void initializeMocksAndInstantiateObject() {
-        initializeMocks();
-        instantiateObjectToTest();
-    }
-
-    /**
-     *
-     */
-    private void initializeMocks() {
-        Class<?> clazz = this.getClass();
-        while (clazz != Object.class) {
-            scan(clazz);
-            clazz = clazz.getSuperclass();
-        }
-    }
-
-    /**
-     * @param clazz
-     *            the class we're scanning
-     */
-    private void scan(final Class<?> clazz) {
-        final AnnotationEngine annotationEngine =
-                new GlobalConfiguration().getAnnotationEngine();
-        final Field[] fields = clazz.getDeclaredFields();
-        for (final Field field : fields) {
-            for (final Annotation annotation : field.getAnnotations()) {
-                final Object mock = annotationEngine.createMockFor(annotation, field);
-                if (mock != null) {
-                    try {
-                        setThisFieldTo(field, mock);
-                        defaultListableBeanFactory.registerSingleton(field.getName(), mock);
-                    } catch (final IllegalAccessException e) {
-                        throw new MockitoException("Problems initiating mocks annotated with "
-                                + annotation, e);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     */
-    @SuppressWarnings("unchecked")
-    public final void instantiateObjectToTest() {
-        for (final Field field : this.getClass().getDeclaredFields()) {
-            if (field.getType().equals(classUnderTest)) {
-                try {
-                    final T object = (T) defaultListableBeanFactory.createBean(classUnderTest);
-                    setThisFieldTo(field, object);
-                } catch (final IllegalAccessException e) {
-                    throw new MockitoException("Problems instantiating test object", e);
-                }
-            }
-        }
-    }
-
-    /**
-     * @param field
-     *            the field to set
-     * @param value
-     *            the value to set it to
-     * @throws IllegalAccessException
-     *             on exception
-     */
-    private void setThisFieldTo(final Field field, final Object value)
-            throws IllegalAccessException {
-        final boolean accessible = field.isAccessible();
-        if (!accessible) {
-            field.setAccessible(true);
-        }
-        field.set(this, value);
-        if (!accessible) {
-            field.setAccessible(false);
-        }
-    }
-
 }
