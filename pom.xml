@@ -85,6 +85,18 @@
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
         </configuration>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <failOnViolation>true</failOnViolation>
+              <violationSeverity>warning</violationSeverity>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- Configure the Maven license plugin -->
       <plugin>
