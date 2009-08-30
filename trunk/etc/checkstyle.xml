@@ -103,7 +103,7 @@
         <module name="NPathComplexity"/>
         <module name="BooleanExpressionComplexity"/>
         <module name="RegexpHeader">
-            <property name="headerFile" value="/Users/aisrael/workspaces/java/personal/dirty-mockito/etc/header.txt"/>
+            <property name="headerFile" value="${config_loc}/header.txt"/>
         </module>
     </module>
     <module name="SuppressionCommentFilter"/>
