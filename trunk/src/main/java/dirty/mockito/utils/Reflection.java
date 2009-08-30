@@ -10,7 +10,16 @@ package dirty.mockito.utils;
 import java.lang.reflect.Field;
 
 /**
- * Provides #setFieldT
+ * <p>
+ * Provides a set of utility methods (and classes) for reflection.
+ * </p>
+ * <p>
+ * Basically, a clever way to be able to write:
+ * </p>
+ *
+ * <pre>
+ * Reflection.set(field).of(target).to(value);
+ * </pre>
  *
  * @author Alistair A. Israel
  * @since 0.2
