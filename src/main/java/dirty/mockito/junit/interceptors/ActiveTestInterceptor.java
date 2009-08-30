@@ -16,6 +16,8 @@ import org.mockito.internal.configuration.GlobalConfiguration;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
+import dirty.mockito.utils.Reflection;
+
 /**
  * <p>
  * JUnit 4.7 interceptor {@link org.junit.Rule} that performs instantiation,
@@ -50,21 +52,18 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  *
  * <pre>
  * public class WidgetDaoTest {
+ *     &#064;Rule
+ *     public ActiveTestInterceptor&lt;WidgetDao&gt; interceptor = ActiveTestInterceptor
+ *             .thatWorksOn(WidgetDao.class);
+ *     private WidgetDao widgetDao;
+ *     &#064;Mock
+ *     private EntityManager em;
  *
- *   &#064;Rule
- *   public ActiveTestInterceptor&lt;WidgetDao&gt; interceptor =
- *     ActiveTestInterceptor.thatWorksOn(WidgetDao.class);
- *
- *   private WidgetDao widgetDao;
- *
- *   &#064;Mock
- *   private EntityManager em;
- *
- *   &#064;Test
- *   public void testFind() {
- *     widgetDao.find(123L);
- *     Mockito.verify(em).find(Entity.class, 123L);
- *   }
+ *     &#064;Test
+ *     public void testFind() {
+ *         widgetDao.find(123L);
+ *         Mockito.verify(em).find(Entity.class, 123L);
+ *     }
  * }
  * </pre>
  * <p>
@@ -80,7 +79,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * </p>
  *
  * @param <T>
- *            the type (class) under test
+ *        the type (class) under test
  * @author Alistair A. Israel
  * @see <a href="http://code.google.com/p/dirty-mockito/" target="_blan
  *      >dirty-mockito</a>
@@ -93,28 +92,26 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  */
 public class ActiveTestInterceptor<T> extends MockingInterceptor {
 
-    private final DefaultListableBeanFactory defaultListableBeanFactory =
-            new DefaultListableBeanFactory();
+    private final DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
 
     private final Class<T> classUnderTest;
 
     /**
      * @param classUnderTest
-     *            the class under test
+     *        the class under test
      */
     protected ActiveTestInterceptor(final Class<T> classUnderTest) {
         this.classUnderTest = classUnderTest;
-        final AutowiredAnnotationBeanPostProcessor aabpp =
-                new AutowiredAnnotationBeanPostProcessor();
+        final AutowiredAnnotationBeanPostProcessor aabpp = new AutowiredAnnotationBeanPostProcessor();
         aabpp.setBeanFactory(defaultListableBeanFactory);
         defaultListableBeanFactory.addBeanPostProcessor(aabpp);
     }
 
     /**
      * @param <T>
-     *            the type of the class under test
+     *        the type of the class under test
      * @param classUnderTest
-     *            the class under test
+     *        the class under test
      * @return an ActiveTestInterceptor
      */
     public static <T> ActiveTestInterceptor<T> thatWorksOn(final Class<T> classUnderTest) {
@@ -134,7 +131,7 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
 
     /**
      * @param unitTest
-     *            the JUnit test we're intercepting
+     *        the JUnit test we're intercepting
      */
     private void initializeMocks(final Object unitTest) {
         Class<?> clazz = unitTest.getClass();
@@ -146,23 +143,22 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
 
     /**
      * @param unitTest
-     *            the JUnit test we're intercepting
+     *        the JUnit test we're intercepting
      * @param clazz
-     *            the class we're scanning
+     *        the class we're scanning
      */
     private void scan(final Object unitTest, final Class<?> clazz) {
-        final AnnotationEngine annotationEngine =
-                new GlobalConfiguration().getAnnotationEngine();
+        final AnnotationEngine annotationEngine = new GlobalConfiguration().getAnnotationEngine();
         final Field[] fields = clazz.getDeclaredFields();
         for (final Field field : fields) {
             for (final Annotation annotation : field.getAnnotations()) {
                 final Object mock = annotationEngine.createMockFor(annotation, field);
                 if (mock != null) {
                     try {
-                        setFieldTo(unitTest, field, mock);
+                        Reflection.set(field).of(unitTest).to(mock);
                     } catch (final IllegalAccessException e) {
-                        throw new MockitoException(
-                                "Problems initializing fields annotated with " + annotation, e);
+                        throw new MockitoException("Problems initializing fields annotated with "
+                                + annotation, e);
                     }
                     defaultListableBeanFactory.registerSingleton(field.getName(), mock);
                 }
@@ -172,7 +168,7 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
 
     /**
      * @param target
-     *            the JUnit test we're intercepting
+     *        the JUnit test we're intercepting
      */
     @SuppressWarnings("unchecked")
     private void instantiateObjectToTest(final Object target) {
@@ -180,33 +176,11 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
             if (field.getType().equals(classUnderTest)) {
                 final T object = (T) defaultListableBeanFactory.createBean(classUnderTest);
                 try {
-                    setFieldTo(target, field, object);
+                    Reflection.set(field).of(target).to(object);
                 } catch (final IllegalAccessException e) {
                     throw new MockitoException("Problems instantiating test object", e);
                 }
             }
-        }
-    }
-
-    /**
-     * @param target
-     *            the JUnit test we're intercepting
-     * @param field
-     *            the field to set
-     * @param value
-     *            the value to set it to
-     * @throws IllegalAccessException
-     *             on exception
-     */
-    private void setFieldTo(final Object target, final Field field, final Object value)
-            throws IllegalAccessException {
-        final boolean accessible = field.isAccessible();
-        if (!accessible) {
-            field.setAccessible(true);
-        }
-        field.set(target, value);
-        if (!accessible) {
-            field.setAccessible(false);
         }
     }
 

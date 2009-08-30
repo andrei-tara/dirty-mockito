@@ -13,11 +13,13 @@ import java.lang.reflect.Type;
 
 import org.junit.Before;
 
+import dirty.mockito.utils.Reflection;
+
 /**
  * A 'proof of concept' for {@link dirty.mockito.ActiveTest}.
  *
  * @param <T>
- *            the type under test
+ *        the type under test
  * @author Alistair A. Israel
  * @since 0.1
  */
@@ -28,38 +30,38 @@ public class MagicTest<T> {
     /**
      *
      */
-    @SuppressWarnings("unchecked")
     public MagicTest() {
+        this.classUnderTest = determineTypeParameter();
+    }
+
+    /**
+     * @return the Type parameter to our generic base class
+     */
+    @SuppressWarnings("unchecked")
+    private Class<T> determineTypeParameter() {
         Class<?> specificClass = this.getClass();
         Type genericSuperclass = specificClass.getGenericSuperclass();
-        while (!(genericSuperclass instanceof ParameterizedType)
-                && specificClass != MagicTest.class) {
+        while (!(genericSuperclass instanceof ParameterizedType) && specificClass != MagicTest.class) {
             specificClass = specificClass.getSuperclass();
             genericSuperclass = specificClass.getGenericSuperclass();
         }
         final ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
 
         final Type firstTypeParameter = parameterizedType.getActualTypeArguments()[0];
-        this.classUnderTest = (Class) firstTypeParameter;
+        return (Class<T>) firstTypeParameter;
     }
 
     /**
      * @throws Exception
-     *             on exception
+     *         on exception
      */
     @Before
     public final void instantiateObjectToTest() throws Exception {
-        for (final Field field : this.getClass().getDeclaredFields()) {
+        final MagicTest<T> target = this;
+        for (final Field field : target.getClass().getDeclaredFields()) {
             if (field.getType().equals(classUnderTest)) {
                 final T object = classUnderTest.newInstance();
-                final boolean accessible = field.isAccessible();
-                if (!accessible) {
-                    field.setAccessible(true);
-                }
-                field.set(this, object);
-                if (!accessible) {
-                    field.setAccessible(false);
-                }
+                Reflection.set(field).of(this).to(object);
             }
         }
     }
