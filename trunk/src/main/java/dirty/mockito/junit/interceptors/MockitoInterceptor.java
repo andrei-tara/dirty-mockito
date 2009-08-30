@@ -30,6 +30,7 @@ import org.mockito.MockitoAnnotations;
  *     }
  * </pre>
  * @author Alistair A. Israel
+ * @since 0.2
  */
 
 public class MockitoInterceptor extends MockingInterceptor {
