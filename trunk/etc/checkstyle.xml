@@ -102,6 +102,9 @@
         <module name="CyclomaticComplexity"/>
         <module name="NPathComplexity"/>
         <module name="BooleanExpressionComplexity"/>
+        <module name="RegexpHeader">
+            <property name="headerFile" value="/Users/aisrael/workspaces/java/personal/dirty-mockito/etc/header.txt"/>
+        </module>
     </module>
     <module name="SuppressionCommentFilter"/>
 </module>

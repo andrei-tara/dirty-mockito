@@ -25,8 +25,7 @@ public abstract class MockingInterceptor implements MethodRule {
      * @see org.junit.rules.MethodRule#apply(org.junit.runners.model.Statement,
      *      org.junit.runners.model.FrameworkMethod, java.lang.Object)
      */
-    public final Statement apply(final Statement base,
-            @SuppressWarnings("unused") final FrameworkMethod method, final Object target) {
+    public final Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
         return new Statement() {
 
             @Override
@@ -40,7 +39,7 @@ public abstract class MockingInterceptor implements MethodRule {
 
     /**
      * @param target
-     *            the object we're constructing our mocks for
+     *        the object we're constructing our mocks for
      */
     protected abstract void initMocks(final Object target);
 }
