@@ -16,6 +16,7 @@ import org.junit.runners.model.Statement;
  * (mock) object test harnesses.
  *
  * @author Alistair A. Israel
+ * @since 0.2
  */
 public abstract class MockingInterceptor implements MethodRule {
 

@@ -19,6 +19,7 @@ import dirty.mockito.Foo;
 import dirty.mockito.UsesFoo;
 
 /**
+ * JUnit test for {@link ActiveTestInterceptor}.
  *
  * @author Alistair A. Israel
  */
@@ -29,8 +30,8 @@ public class ActiveTestInterceptorTest {
      */
     @Rule
     // CHECKSTYLE:OFF
-    public final ActiveTestInterceptor<UsesFoo> activeTestInterceptor =
-            ActiveTestInterceptor.thatWorksOn(UsesFoo.class);
+    public final ActiveTestInterceptor<UsesFoo> activeTestInterceptor = ActiveTestInterceptor
+            .thatWorksOn(UsesFoo.class);
     // CHECKSTYLE:ON
 
     private UsesFoo usesFoo;
