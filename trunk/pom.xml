@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- The Basics -->
 	<groupId>dirty-mockito</groupId>
 	<artifactId>dirty-mockito</artifactId>
 	<name>Dirty Mockito</name>
-	<version>0.2</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<description>Dirty Mockito: JUnit, Mockito, and then some</description>
@@ -20,9 +21,9 @@
 
 	<!-- SVN Configuration -->
 	<scm>
-		<connection>scm:svn:http://dirty-mockito.googlecode.com/svn/tags/dirty-mockito-0.2</connection>
-		<developerConnection>scm:svn:https://dirty-mockito.googlecode.com/svn/tags/dirty-mockito-0.2</developerConnection>
-		<url>http://code.google.com/p/dirty-mockito/source/browse/#svn/tags/dirty-mockito-0.2</url>
+		<connection>scm:svn:http://dirty-mockito.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://dirty-mockito.googlecode.com/svn/trunk</developerConnection>
+		<url>http://code.google.com/p/dirty-mockito/source/browse/#svn/trunk</url>
 	</scm>
 
 	<properties>
