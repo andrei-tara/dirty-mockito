@@ -12,8 +12,10 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 /**
+ * <p>
  * A base class for JUnit interceptors ({@link org.junit.Rule}) that construct
- * (mock) object test harnesses.
+ * (mock) object test scaffolding.
+ * </p>
  *
  * @author Alistair A. Israel
  * @since 0.2
@@ -26,7 +28,8 @@ public abstract class MockingInterceptor implements MethodRule {
      * @see org.junit.rules.MethodRule#apply(org.junit.runners.model.Statement,
      *      org.junit.runners.model.FrameworkMethod, java.lang.Object)
      */
-    public final Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
+    public final Statement apply(final Statement base,
+            final FrameworkMethod method, final Object target) {
         return new Statement() {
 
             @Override

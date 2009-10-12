@@ -16,11 +16,11 @@ import org.mockito.MockitoAnnotations;
  * unit test class) annotated with {@link org.mockito.Mock}. Let's you write,
  * for example:
  * </p>
+ *
  * <pre>
  * public class MyTest {
  *     &#064;Rule
  *     public MockitoInterceptor interceptor = new MockitoInterceptor();
- *
  *     &#064;Mock
  *     private Foo mock;
  *     &#064;Test
@@ -29,6 +29,7 @@ import org.mockito.MockitoAnnotations;
  *         // ...
  *     }
  * </pre>
+ *
  * @author Alistair A. Israel
  * @since 0.2
  */
