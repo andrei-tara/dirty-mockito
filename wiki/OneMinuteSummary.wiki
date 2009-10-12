@@ -1,7 +1,7 @@
-#summary dirty-mockito: Instantiation, mocking and injection for the lazy.
+#summary `dirty-mockito` in 60 seconds
 #labels Featured
 
-= Introducing `dirty-mockito` =
+= Instantiation, mocking and injection for the lazy =
 
 `dirty-mockito` is a set of unofficial extensions that blend together the [http://www.junit.org/ JUnit] testing framework, the [http://mockito.org/ Mockito] mocking framework with a dash of [http://www.springframework.org Spring] and then some.
 
