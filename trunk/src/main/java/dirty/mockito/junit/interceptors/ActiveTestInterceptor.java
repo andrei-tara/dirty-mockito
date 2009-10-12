@@ -10,12 +10,16 @@ package dirty.mockito.junit.interceptors;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+import javax.persistence.EntityManager;
+
 import org.mockito.configuration.AnnotationEngine;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.GlobalConfiguration;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 
+import dirty.mockito.spring.jpa.MockEntityManagerFactory;
 import dirty.mockito.utils.Reflection;
 
 /**
@@ -102,6 +106,11 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      */
     protected ActiveTestInterceptor(final Class<T> classUnderTest) {
         this.classUnderTest = classUnderTest;
+
+        final PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor();
+        pabpp.setBeanFactory(defaultListableBeanFactory);
+        defaultListableBeanFactory.addBeanPostProcessor(pabpp);
+
         final AutowiredAnnotationBeanPostProcessor aabpp = new AutowiredAnnotationBeanPostProcessor();
         aabpp.setBeanFactory(defaultListableBeanFactory);
         defaultListableBeanFactory.addBeanPostProcessor(aabpp);
@@ -114,7 +123,8 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      *        the class under test
      * @return an ActiveTestInterceptor
      */
-    public static <T> ActiveTestInterceptor<T> thatWorksOn(final Class<T> classUnderTest) {
+    public static <T> ActiveTestInterceptor<T> thatWorksOn(
+            final Class<T> classUnderTest) {
         return new ActiveTestInterceptor<T>(classUnderTest);
     }
 
@@ -148,22 +158,41 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      *        the class we're scanning
      */
     private void scan(final Object unitTest, final Class<?> clazz) {
-        final AnnotationEngine annotationEngine = new GlobalConfiguration().getAnnotationEngine();
+        final AnnotationEngine annotationEngine = new GlobalConfiguration()
+                .getAnnotationEngine();
         final Field[] fields = clazz.getDeclaredFields();
         for (final Field field : fields) {
             for (final Annotation annotation : field.getAnnotations()) {
-                final Object mock = annotationEngine.createMockFor(annotation, field);
+                final Object mock = annotationEngine.createMockFor(annotation,
+                        field);
                 if (mock != null) {
                     try {
                         Reflection.set(field).of(unitTest).to(mock);
                     } catch (final IllegalAccessException e) {
-                        throw new MockitoException("Problems initializing fields annotated with "
-                                + annotation, e);
+                        throw new MockitoException(
+                                "Problems initializing fields annotated with "
+                                        + annotation, e);
                     }
-                    defaultListableBeanFactory.registerSingleton(field.getName(), mock);
+
+                    if (mock instanceof EntityManager) {
+                        registerMockEntityManagerFactory((EntityManager) mock);
+                    }
+                    defaultListableBeanFactory.registerSingleton(field
+                            .getName(), mock);
                 }
             }
         }
+    }
+
+    /**
+     * @param em
+     *        the (mock) {@link EntityManager}
+     */
+    private void registerMockEntityManagerFactory(final EntityManager em) {
+        final MockEntityManagerFactory mockEntityManagerFactory = new MockEntityManagerFactory(
+                em);
+        defaultListableBeanFactory.registerSingleton("entityManagerFactory",
+                mockEntityManagerFactory);
     }
 
     /**
@@ -174,11 +203,13 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
     private void instantiateObjectToTest(final Object target) {
         for (final Field field : target.getClass().getDeclaredFields()) {
             if (field.getType().equals(classUnderTest)) {
-                final T object = (T) defaultListableBeanFactory.createBean(classUnderTest);
+                final T object = (T) defaultListableBeanFactory
+                        .createBean(classUnderTest);
                 try {
                     Reflection.set(field).of(target).to(object);
                 } catch (final IllegalAccessException e) {
-                    throw new MockitoException("Problems instantiating test object", e);
+                    throw new MockitoException(
+                            "Problems instantiating test object", e);
                 }
             }
         }
