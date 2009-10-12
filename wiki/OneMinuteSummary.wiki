@@ -1,4 +1,4 @@
-#summary `dirty-mockito` in 60 seconds
+#summary a.k.a. the "elevator pitch"
 #labels Featured
 
 = Instantiation, mocking and injection for the lazy =
