@@ -1,0 +1,50 @@
+#summary dirty-mockito: Instantiation, mocking and injection for the lazy.
+#labels Featured
+
+= Instantiation, mocking, and injection for the lazy =
+
+`dirty-mockito` is a set of unofficial extensions that blend together the [http://www.junit.org/ JUnit] testing framework, the [http://mockito.org/ Mockito] mocking framework with a dash of [http://www.springframework.org Spring] and then some.
+
+Suppose we have an interface:
+{{{
+public interface Foo {
+
+  void bar();
+
+}
+}}}
+And a class that uses that interface:
+{{{
+public class UsesFoo {
+
+  @Autowired
+  private Foo foo;
+
+  public Foo getFoo() {
+    return foo;
+  }
+
+  public void fooBar() {
+    foo.bar();
+  }
+}
+}}}
+Then `dirty-mockito` lets us write tests by simply going:
+{{{
+public class UsesFooTest extends ActiveTest<UsesFoo> {
+
+  private UsesFoo usesFoo;
+
+  @Mock
+  private Foo mockFoo;
+
+  @Test
+  public void testFooBar() {
+    assertNotNull(mockFoo);
+    assertNotNull(usesFoo);
+    assertSame(mockFoo, usesFoo.getFoo());
+    usesFoo.fooBar();
+    verify(mockFoo).bar();
+  }
+}
+}}}
