@@ -202,10 +202,13 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
                 if (JpaDaoSupport.class.isAssignableFrom(classUnderTest)) {
                     final String beanName = field.getName();
                     registerJpaDaoBeanDefinition(beanName);
-                    object = (T) defaultListableBeanFactory.getBean(
-                            beanName, classUnderTest);
+                    object = (T) defaultListableBeanFactory.getBean(beanName,
+                            classUnderTest);
                 } else {
-                    object = (T) defaultListableBeanFactory.createBean(classUnderTest);
+                    object = (T) defaultListableBeanFactory.createBean(
+                            classUnderTest,
+                            DefaultListableBeanFactory.AUTOWIRE_CONSTRUCTOR,
+                            true);
                 }
                 try {
                     Reflection.set(field).of(target).to(object);
