@@ -15,11 +15,12 @@ import javax.persistence.EntityManager;
 import org.mockito.configuration.AnnotationEngine;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.GlobalConfiguration;
-import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
-import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.orm.jpa.support.JpaDaoSupport;
 
+import dirty.mockito.spring.context.TestBeanFactory;
 import dirty.mockito.spring.jpa.MockEntityManagerFactory;
 import dirty.mockito.utils.Reflection;
 
@@ -97,7 +98,7 @@ import dirty.mockito.utils.Reflection;
  */
 public class ActiveTestInterceptor<T> extends MockingInterceptor {
 
-    private final DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
+    private final DefaultListableBeanFactory defaultListableBeanFactory = new TestBeanFactory();
 
     private final Class<T> classUnderTest;
 
@@ -107,18 +108,6 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      */
     protected ActiveTestInterceptor(final Class<T> classUnderTest) {
         this.classUnderTest = classUnderTest;
-
-        final AutowiredAnnotationBeanPostProcessor aabpp = new AutowiredAnnotationBeanPostProcessor();
-        aabpp.setBeanFactory(defaultListableBeanFactory);
-        defaultListableBeanFactory.addBeanPostProcessor(aabpp);
-
-        final PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor();
-        pabpp.setBeanFactory(defaultListableBeanFactory);
-        defaultListableBeanFactory.addBeanPostProcessor(pabpp);
-
-        final CommonAnnotationBeanPostProcessor cabpp = new CommonAnnotationBeanPostProcessor();
-        cabpp.setBeanFactory(defaultListableBeanFactory);
-        defaultListableBeanFactory.addBeanPostProcessor(cabpp);
     }
 
     /**
@@ -208,8 +197,12 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
     private void instantiateObjectToTest(final Object target) {
         for (final Field field : target.getClass().getDeclaredFields()) {
             if (field.getType().equals(classUnderTest)) {
-                final T object = (T) defaultListableBeanFactory
-                        .createBean(classUnderTest);
+                final String beanName = field.getName();
+                if (JpaDaoSupport.class.isAssignableFrom(classUnderTest)) {
+                    registerJpaDaoBeanDefinition(beanName);
+                }
+                final T object = (T) defaultListableBeanFactory.getBean(
+                        beanName, classUnderTest);
                 try {
                     Reflection.set(field).of(target).to(object);
                 } catch (final IllegalAccessException e) {
@@ -218,6 +211,21 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
                 }
             }
         }
+    }
+
+    /**
+     * @param beanName
+     *        the bean name to register
+     */
+    private void registerJpaDaoBeanDefinition(final String beanName) {
+        final GenericBeanDefinition def = new GenericBeanDefinition();
+        def.setBeanClass(classUnderTest);
+        final MutablePropertyValues propertyValues = new MutablePropertyValues();
+        final Object emf = defaultListableBeanFactory
+                .getSingleton("entityManagerFactory");
+        propertyValues.addPropertyValue("entityManagerFactory", emf);
+        def.setPropertyValues(propertyValues);
+        defaultListableBeanFactory.registerBeanDefinition(beanName, def);
     }
 
 }
