@@ -5,7 +5,7 @@
   <groupId>dirty-mockito</groupId>
   <artifactId>dirty-mockito</artifactId>
   <name>Dirty Mockito</name>
-  <version>0.2.2-SNAPSHOT</version>
+  <version>0.2.2</version>
   <packaging>jar</packaging>
 
   <description>Dirty Mockito: JUnit, Mockito, and then some</description>
@@ -20,9 +20,9 @@
 
   <!-- SVN Configuration -->
   <scm>
-    <connection>scm:svn:http://dirty-mockito.googlecode.com/svn/trunk</connection>
-    <developerConnection>scm:svn:https://dirty-mockito.googlecode.com/svn/trunk</developerConnection>
-    <url>http://code.google.com/p/dirty-mockito/source/browse/#svn/trunk</url>
+    <connection>scm:svn:http://dirty-mockito.googlecode.com/svn/tags/dirty-mockito-0.2.2</connection>
+    <developerConnection>scm:svn:https://dirty-mockito.googlecode.com/svn/tags/dirty-mockito-0.2.2</developerConnection>
+    <url>http://code.google.com/p/dirty-mockito/source/browse/#svn/tags/dirty-mockito-0.2.2</url>
   </scm>
 
   <properties>
