@@ -24,10 +24,11 @@ import com.example.entities.Widget;
 import dirty.mockito.ActiveTest;
 
 /**
- * Unit test that verifies that Spring's JPA annotation handling is
+ * Unit test that verifies that @PersistenceContext annotation handling is
  * transparently and properly handled.
  *
  * @author Alistair A. Israel
+ * @since 0.2.2
  */
 public final class PlainWidgetDaoTest extends ActiveTest<PlainWidgetDao> {
 

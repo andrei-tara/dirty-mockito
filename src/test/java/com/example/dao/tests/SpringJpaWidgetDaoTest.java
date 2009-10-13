@@ -29,6 +29,7 @@ import dirty.mockito.ActiveTest;
  * JUnit test for {@link SpringJpaWidgetDao}.
  *
  * @author Alistair A. Israel
+ * @since 0.2.2
  */
 public final class SpringJpaWidgetDaoTest extends
         ActiveTest<SpringJpaWidgetDao> {

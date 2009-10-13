@@ -26,9 +26,11 @@ import com.example.services.WidgetService;
 import dirty.mockito.ActiveTest;
 
 /**
- * Test for {@link WidgetService}
+ * Ostensibly a test for {@link WidgetService}, but actually exercises @PersistenceContext
+ * injection and @PostConstruct annotation handling.
  *
  * @author Alistair A. Israel
+ * @since 0.2.2
  */
 public final class WidgetServiceTest extends ActiveTest<WidgetService> {
 

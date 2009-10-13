@@ -19,6 +19,7 @@ import com.example.entities.Widget;
  * An example EJB 3.0 style service
  *
  * @author Alistair A. Israel
+ * @since 0.2.2
  */
 public class WidgetService {
 

@@ -11,6 +11,7 @@ import com.example.entities.Widget;
 
 /**
  * @author Alistair A. Israel
+ * @since 0.2.1
  */
 public interface WidgetDao {
 
