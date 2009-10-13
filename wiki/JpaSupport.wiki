@@ -1,0 +1,50 @@
+#summary Write JPA unit tests easily using mocks.
+#labels Featured
+
+`dirty-mockito` supports JPA `EntityManager` mocking and injection.
+
+Suppose you start with the following unit test:
+{{{
+public class WidgetDaoTest extends ActiveTest<WidgetDao> {
+
+  @Mock
+  private EntityManager em;
+
+  private WidgetDao widgetDao;
+
+  ...
+}}}
+
+`WidgetDao` can be written three ways:
+
+=== Using constructor injection ===
+{{{
+public class WidgetDao {
+
+  private final EntityManager em;
+
+  public WidgetDao(EntityManager em) {
+    this.em = em;
+  }
+
+  ...
+}}}
+
+=== Using JPA `@PersistenceContext` ===
+{{{
+public class WidgetDao {
+
+  @PersistenceContext
+  private EntityManager em;
+
+  ...
+}}}
+
+=== Using Spring `JpaDaoSupport`-derived classes ===
+{{{
+public class WidgetDao extends JpaDaoSupport {
+
+  ...
+}}}
+
+In any of the above cases, `dirty-mockito` will inject the mock `EntityManager` properly to the JPA DAO.
