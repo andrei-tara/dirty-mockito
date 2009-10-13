@@ -17,6 +17,7 @@ import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.GlobalConfiguration;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 
 import dirty.mockito.spring.jpa.MockEntityManagerFactory;
@@ -107,13 +108,17 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
     protected ActiveTestInterceptor(final Class<T> classUnderTest) {
         this.classUnderTest = classUnderTest;
 
+        final AutowiredAnnotationBeanPostProcessor aabpp = new AutowiredAnnotationBeanPostProcessor();
+        aabpp.setBeanFactory(defaultListableBeanFactory);
+        defaultListableBeanFactory.addBeanPostProcessor(aabpp);
+
         final PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor();
         pabpp.setBeanFactory(defaultListableBeanFactory);
         defaultListableBeanFactory.addBeanPostProcessor(pabpp);
 
-        final AutowiredAnnotationBeanPostProcessor aabpp = new AutowiredAnnotationBeanPostProcessor();
-        aabpp.setBeanFactory(defaultListableBeanFactory);
-        defaultListableBeanFactory.addBeanPostProcessor(aabpp);
+        final CommonAnnotationBeanPostProcessor cabpp = new CommonAnnotationBeanPostProcessor();
+        cabpp.setBeanFactory(defaultListableBeanFactory);
+        defaultListableBeanFactory.addBeanPostProcessor(cabpp);
     }
 
     /**
