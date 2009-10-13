@@ -5,7 +5,7 @@
  *
  * Created Oct 12, 2009
  */
-package dirty.mockito.spring.jpa;
+package com.example.dao.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -41,7 +41,6 @@ public final class PlainWidgetDaoTest extends ActiveTest<PlainWidgetDao> {
      */
     @Test
     public void testFindById() {
-
         final Widget widget = new Widget();
         widget.setId(123L);
         widget.setName("Example Widget");
