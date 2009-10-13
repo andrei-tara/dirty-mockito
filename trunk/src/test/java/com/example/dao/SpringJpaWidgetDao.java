@@ -21,6 +21,7 @@ import com.example.entities.Widget;
  * {@link com.example.services.WidgetService}.
  *
  * @author Alistair A. Israel
+ * @since 0.2.2
  */
 public class SpringJpaWidgetDao extends JpaDaoSupport implements WidgetDao {
 

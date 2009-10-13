@@ -17,6 +17,7 @@ import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcesso
  * common/useful bean post processors.
  *
  * @author Alistair A. Israel
+ * @since 0.2.2
  */
 public class TestBeanFactory extends DefaultListableBeanFactory {
 

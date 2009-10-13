@@ -25,6 +25,7 @@ import javax.persistence.EntityManagerFactory;
  * </p>
  *
  * @author Alistair A. Israel
+ * @since 0.2.1
  */
 public class MockEntityManagerFactory implements EntityManagerFactory {
 

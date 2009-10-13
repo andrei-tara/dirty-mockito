@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 
 /**
  * @author Alistair A. Israel
+ * @since 0.2.1
  */
 @Entity
 @NamedQueries({ @NamedQuery(name = Widget.FIND_BY_ID, query = "SELECT w FROM Widget w WHERE w.id = :id") })
