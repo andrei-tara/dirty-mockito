@@ -197,12 +197,16 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
     private void instantiateObjectToTest(final Object target) {
         for (final Field field : target.getClass().getDeclaredFields()) {
             if (field.getType().equals(classUnderTest)) {
-                final String beanName = field.getName();
+
+                final T object;
                 if (JpaDaoSupport.class.isAssignableFrom(classUnderTest)) {
+                    final String beanName = field.getName();
                     registerJpaDaoBeanDefinition(beanName);
+                    object = (T) defaultListableBeanFactory.getBean(
+                            beanName, classUnderTest);
+                } else {
+                    object = (T) defaultListableBeanFactory.createBean(classUnderTest);
                 }
-                final T object = (T) defaultListableBeanFactory.getBean(
-                        beanName, classUnderTest);
                 try {
                     Reflection.set(field).of(target).to(object);
                 } catch (final IllegalAccessException e) {
