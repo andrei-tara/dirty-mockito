@@ -5,7 +5,7 @@
  *
  * Created May 12, 2009
  */
-package dirty.mockito;
+package dirty.mockito.junit.rules;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
@@ -14,7 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import dirty.mockito.junit.rules.MagicMocker;
+import dirty.mockito.Foo;
+import dirty.mockito.UsesFoo;
 
 /**
  * JUnit test for {@link dirty.mockito.MagicMocker}.
