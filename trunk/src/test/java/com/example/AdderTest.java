@@ -5,13 +5,15 @@
  *
  * Created May 28, 2009
  */
-package dirty.mockito;
+package com.example;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import dirty.mockito.MagicTest;
 
 /**
  * Ostensibly a test for {@link Adder}, but actually exercises {@link dirty.mockito.MagicTest}.

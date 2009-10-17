@@ -5,7 +5,7 @@
  *
  * Created May 29, 2009
  */
-package dirty.mockito;
+package com.example;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -13,6 +13,8 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.mockito.Mock;
+
+import dirty.mockito.ActiveTest;
 
 /**
  * Ostenibly a test for {@link UsesFoo} but actually exercises {@link dirty.mockito.ActiveTest}.
@@ -27,7 +29,7 @@ public class UsesFooTest extends ActiveTest<UsesFoo> {
     private Foo mockFoo;
 
     /**
-     * Test method for {@link dirty.mockito.UsesFoo#fooBar()}.
+     * Test method for {@link com.example.UsesFoo#fooBar()}.
      */
     @Test
     public final void testFooBar() {

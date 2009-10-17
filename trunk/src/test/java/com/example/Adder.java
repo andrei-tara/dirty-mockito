@@ -5,7 +5,7 @@
  *
  * Created May 28, 2009
  */
-package dirty.mockito;
+package com.example;
 
 /**
  * A basic class to test.

@@ -14,8 +14,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import dirty.mockito.Foo;
-import dirty.mockito.UsesFoo;
+import com.example.Foo;
+import com.example.UsesFoo;
+
 
 /**
  * JUnit test for {@link dirty.mockito.MagicMocker}.
