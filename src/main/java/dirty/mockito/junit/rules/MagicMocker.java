@@ -21,7 +21,7 @@ import org.mockito.MockitoAnnotations;
  * public class MyTest {
  *
  *     &#064;Rule
- *     public MockitoRule mockitoRule = new MockitoRule();
+ *     public MagicMocker mockitoRule = new MagicMocker();
  *
  *     &#064;Mock
  *     private Foo mock;
@@ -38,7 +38,7 @@ import org.mockito.MockitoAnnotations;
  * @since 0.2
  */
 
-public class MockitoRule extends MockingRule {
+public class MagicMocker extends MockingRule {
 
     /**
      * {@inheritDoc}
