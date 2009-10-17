@@ -10,15 +10,26 @@ package dirty.mockito;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import dirty.mockito.junit.rules.MagicMocker;
 
 /**
  * JUnit test for {@link dirty.mockito.MagicMocker}.
  *
  * @author Alistair A. Israel
  */
-public class MagicMockerTest extends MagicMocker {
+public class MagicMockerTest {
+
+    /**
+     * {@link MagicMocker} does all the magic.
+     */
+    @Rule
+    // CHECKSTYLE:OFF
+    public final MagicMocker magicMocker = new MagicMocker();
+    // CHECKSTYLE:ON
 
     @Mock
     private Foo mockFoo;

@@ -18,26 +18,26 @@ import dirty.mockito.Foo;
 import dirty.mockito.UsesFoo;
 
 /**
- * JUnit test that tests and illustrates the use of {@link MockitoRule}.
+ * JUnit test that tests and illustrates the use of {@link MagicMocker}.
  *
  * @author Alistair A. Israel
  */
 public final class MockitoRuleTest {
 
     /**
-     * Use a {@link MockitoRule} to mock our fields annotated with
+     * Use a {@link MagicMocker} to mock our fields annotated with
      * {@link Mock}.
      */
     @Rule
     // CHECKSTYLE:OFF
-    public final MockitoRule mockitoRule = new MockitoRule();
+    public final MagicMocker mockitoRule = new MagicMocker();
     // CHECKSTYLE:ON
 
     @Mock
     private Foo mockFoo;
 
     /**
-     * At this point, our MockitoRule should've kicked in and mocked
+     * At this point, our MagicMocker should've kicked in and mocked
      * <code>mockFoo</code>.
      */
     @Test
