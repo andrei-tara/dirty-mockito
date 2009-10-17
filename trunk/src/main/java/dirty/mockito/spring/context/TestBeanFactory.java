@@ -10,7 +10,6 @@ package dirty.mockito.spring.context;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
-import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 
 /**
  * A simple extension of {@link DefaultListableBeanFactory} that initializes the
@@ -28,10 +27,6 @@ public class TestBeanFactory extends DefaultListableBeanFactory {
         final AutowiredAnnotationBeanPostProcessor aabpp = new AutowiredAnnotationBeanPostProcessor();
         aabpp.setBeanFactory(this);
         addBeanPostProcessor(aabpp);
-
-        final PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor();
-        pabpp.setBeanFactory(this);
-        addBeanPostProcessor(pabpp);
 
         final CommonAnnotationBeanPostProcessor cabpp = new CommonAnnotationBeanPostProcessor();
         cabpp.setBeanFactory(this);
