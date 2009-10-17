@@ -10,7 +10,7 @@ package dirty.mockito;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import org.junit.Rule;
+import org.junit.Before;
 
 import dirty.mockito.junit.interceptors.ActiveTestInterceptor;
 
@@ -47,16 +47,15 @@ import dirty.mockito.junit.interceptors.ActiveTestInterceptor;
  *
  * <pre>
  * public class WidgetDaoTest extends ActiveTest&lt;WidgetDao&gt; {
- *   private WidgetDao widgetDao;
+ *     private WidgetDao widgetDao;
+ *     &#064;Mock
+ *     private EntityManager em;
  *
- *   &#064;Mock
- *   private EntityManager em;
- *
- *   &#064;Test
- *   public void testFind() {
- *     widgetDao.find(123L);
- *     Mockito.verify(em).find(Entity.class, 123L);
- *   }
+ *     &#064;Test
+ *     public void testFind() {
+ *         widgetDao.find(123L);
+ *         Mockito.verify(em).find(Entity.class, 123L);
+ *     }
  * }
  * </pre>
  * <p>
@@ -72,7 +71,7 @@ import dirty.mockito.junit.interceptors.ActiveTestInterceptor;
  * </p>
  *
  * @param <T>
- *            the type of the class to instantiate and inject mocks into
+ *        the type of the class to instantiate and inject mocks into
  * @author Alistair A. Israel
  * @see <a href="http://code.google.com/p/dirty-mockito/" target="_blan
  *      >dirty-mockito</a>
@@ -88,17 +87,15 @@ public class ActiveTest<T> {
     /**
      * The {@link ActiveTestInterceptor} that does all the mojo.
      */
-    @Rule
-    // CHECKSTYLE:OFF
-    public final ActiveTestInterceptor<T> activeTestInterceptor;
-    // CHECKSTYLE:ON
+    private final ActiveTestInterceptor<T> activeTestInterceptor;
 
     /**
      *
      */
     public ActiveTest() {
         final Class<T> classUnderTest = determineTypeParameter();
-        this.activeTestInterceptor = ActiveTestInterceptor.thatWorksOn(classUnderTest);
+        this.activeTestInterceptor = ActiveTestInterceptor
+                .thatWorksOn(classUnderTest);
     }
 
     /**
@@ -115,7 +112,17 @@ public class ActiveTest<T> {
         }
         final ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
 
-        final Type firstTypeParameter = parameterizedType.getActualTypeArguments()[0];
+        final Type firstTypeParameter = parameterizedType
+                .getActualTypeArguments()[0];
         return (Class<T>) firstTypeParameter;
+    }
+
+    /**
+     * For now, we do it this way. When JUnit >= 4.7.1 comes out, we can fully
+     * make use of ActiveTestInterceptor as a proper interceptor. Currently, running
+     */
+    @Before
+    public final void initMocks() {
+        activeTestInterceptor.initMocks(this);
     }
 }
