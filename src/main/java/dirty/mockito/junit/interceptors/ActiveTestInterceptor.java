@@ -19,6 +19,7 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 
 import dirty.mockito.spring.context.TestBeanFactory;
 import dirty.mockito.spring.jpa.MockEntityManagerFactory;
@@ -98,7 +99,7 @@ import dirty.mockito.utils.Reflection;
  */
 public class ActiveTestInterceptor<T> extends MockingInterceptor {
 
-    private final DefaultListableBeanFactory defaultListableBeanFactory = new TestBeanFactory();
+    private final DefaultListableBeanFactory beanFactory = new TestBeanFactory();
 
     private final Class<T> classUnderTest;
 
@@ -128,7 +129,7 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      * @see dirty.mockito.junit.interceptors.MockingInterceptor#initMocks(java.lang.Object)
      */
     @Override
-    protected final void initMocks(final Object unitTest) {
+    public final void initMocks(final Object unitTest) {
         initializeMocks(unitTest);
         instantiateObjectToTest(unitTest);
     }
@@ -171,8 +172,7 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
                     if (mock instanceof EntityManager) {
                         registerMockEntityManagerFactory((EntityManager) mock);
                     }
-                    defaultListableBeanFactory.registerSingleton(field
-                            .getName(), mock);
+                    beanFactory.registerSingleton(field.getName(), mock);
                 }
             }
         }
@@ -185,8 +185,13 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
     private void registerMockEntityManagerFactory(final EntityManager em) {
         final MockEntityManagerFactory mockEntityManagerFactory = new MockEntityManagerFactory(
                 em);
-        defaultListableBeanFactory.registerSingleton("entityManagerFactory",
+        beanFactory.registerSingleton("entityManagerFactory",
                 mockEntityManagerFactory);
+
+        final PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor();
+        pabpp.setBeanFactory(beanFactory);
+        beanFactory.addBeanPostProcessor(pabpp);
+
     }
 
     /**
@@ -202,11 +207,9 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
                 if (JpaDaoSupport.class.isAssignableFrom(classUnderTest)) {
                     final String beanName = field.getName();
                     registerJpaDaoBeanDefinition(beanName);
-                    object = (T) defaultListableBeanFactory.getBean(beanName,
-                            classUnderTest);
+                    object = (T) beanFactory.getBean(beanName, classUnderTest);
                 } else {
-                    object = (T) defaultListableBeanFactory.createBean(
-                            classUnderTest,
+                    object = (T) beanFactory.createBean(classUnderTest,
                             DefaultListableBeanFactory.AUTOWIRE_CONSTRUCTOR,
                             true);
                 }
@@ -228,11 +231,10 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
         final GenericBeanDefinition def = new GenericBeanDefinition();
         def.setBeanClass(classUnderTest);
         final MutablePropertyValues propertyValues = new MutablePropertyValues();
-        final Object emf = defaultListableBeanFactory
-                .getSingleton("entityManagerFactory");
+        final Object emf = beanFactory.getSingleton("entityManagerFactory");
         propertyValues.addPropertyValue("entityManagerFactory", emf);
         def.setPropertyValues(propertyValues);
-        defaultListableBeanFactory.registerBeanDefinition(beanName, def);
+        beanFactory.registerBeanDefinition(beanName, def);
     }
 
 }
