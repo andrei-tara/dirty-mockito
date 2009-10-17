@@ -5,7 +5,7 @@
  *
  * Created Aug 14, 2009
  */
-package dirty.mockito.junit.interceptors;
+package dirty.mockito.junit.rules;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -27,9 +27,9 @@ import dirty.mockito.utils.Reflection;
 
 /**
  * <p>
- * JUnit 4.7 interceptor {@link org.junit.Rule} that performs instantiation,
- * mocking and injection of mocks. Uses reflection to instantiate objects,
- * Mockito to perform mocking of elements annotated with <a href=
+ * JUnit 4.7 {@link org.junit.Rule} that performs instantiation, mocking and
+ * injection of mocks. Uses reflection to instantiate objects, Mockito to
+ * perform mocking of elements annotated with <a href=
  * "http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html"
  * ><code>&#064;Mock</code></a>, and an internal Spring BeanFactory to perform
  * injection of mocks into fields (in the object under test) annotated with
@@ -52,29 +52,31 @@ import dirty.mockito.utils.Reflection;
  * </pre>
  * <p>
  * Now, to write a unit test for <code>WidgetDao</code> using
- * <code>ActiveTestInterceptor</code>, we simply add a {@link org.junit.Rule}
- * <code>ActiveTestInterceptor&lt;WidgetDao&gt;</code>, declare a field of type
+ * <code>ActiveTestRule</code>, we simply add a {@link org.junit.Rule}
+ * <code>ActiveTestRule&lt;WidgetDao&gt;</code>, declare a field of type
  * <code>WidgetDao</code>, declare another field of type
  * <code>Entitymanager</code> and annotate that using <code>&#064;Mock</code>.
  *
  * <pre>
  * public class WidgetDaoTest {
  *     &#064;Rule
- *     public ActiveTestInterceptor&lt;WidgetDao&gt; interceptor = ActiveTestInterceptor
+ *     public ActiveTestRule&lt;WidgetDao&gt; activeTestRule = ActiveTestRule
  *             .thatWorksOn(WidgetDao.class);
- *     private WidgetDao widgetDao;
+ *
  *     &#064;Mock
  *     private EntityManager em;
+ *
+ *     private WidgetDao widgetDao;
  *
  *     &#064;Test
  *     public void testFind() {
  *         widgetDao.find(123L);
- *         Mockito.verify(em).find(Entity.class, 123L);
+ *         verify(em).find(Entity.class, 123L);
  *     }
  * }
  * </pre>
  * <p>
- * That's it. ActiveTestInterceptor takes care of creating the mocks for fields
+ * That's it. ActiveTestRule takes care of creating the mocks for fields
  * annotated <code>&#064;Mock</code>, instantiating the class under test (
  * <code>WidgetDao</code>), and injecting the mock objects into
  * <code>&#064;Autowired</code> fields.
@@ -97,7 +99,7 @@ import dirty.mockito.utils.Reflection;
  *      target="_blank>&#064;Mock</a>
  * @since 0.2
  */
-public class ActiveTestInterceptor<T> extends MockingInterceptor {
+public class ActiveTestRule<T> extends MockingRule {
 
     private final DefaultListableBeanFactory beanFactory = new TestBeanFactory();
 
@@ -107,7 +109,7 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      * @param classUnderTest
      *        the class under test
      */
-    protected ActiveTestInterceptor(final Class<T> classUnderTest) {
+    protected ActiveTestRule(final Class<T> classUnderTest) {
         this.classUnderTest = classUnderTest;
     }
 
@@ -116,17 +118,17 @@ public class ActiveTestInterceptor<T> extends MockingInterceptor {
      *        the type of the class under test
      * @param classUnderTest
      *        the class under test
-     * @return an ActiveTestInterceptor
+     * @return an ActiveTestRule
      */
-    public static <T> ActiveTestInterceptor<T> thatWorksOn(
+    public static <T> ActiveTestRule<T> thatWorksOn(
             final Class<T> classUnderTest) {
-        return new ActiveTestInterceptor<T>(classUnderTest);
+        return new ActiveTestRule<T>(classUnderTest);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @see dirty.mockito.junit.interceptors.MockingInterceptor#initMocks(java.lang.Object)
+     * @see dirty.mockito.junit.rules.MockingRule#initMocks(java.lang.Object)
      */
     @Override
     public final void initMocks(final Object unitTest) {

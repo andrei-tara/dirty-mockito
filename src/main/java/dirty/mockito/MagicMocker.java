@@ -9,7 +9,7 @@ package dirty.mockito;
 
 import org.junit.Rule;
 
-import dirty.mockito.junit.interceptors.MockitoInterceptor;
+import dirty.mockito.junit.rules.MockitoRule;
 
 /**
  * <p>
@@ -28,7 +28,7 @@ import dirty.mockito.junit.interceptors.MockitoInterceptor;
  * </pre>
  * <p>
  * Where the fields annotated with {@link org.mockito.Mock} are automatically
- * mocked using a {@link MockitoInterceptor}.
+ * mocked using a {@link MockitoRule}.
  *
  * @author Alistair A. Israel
  * @see <a href=
@@ -45,7 +45,7 @@ public class MagicMocker {
      */
     @Rule
     // CHECKSTYLE:OFF
-    public final MockitoInterceptor mockitoInterceptor = new MockitoInterceptor();
+    public final MockitoRule mockitoRule = new MockitoRule();
     // CHECKSTYLE:ON
 
 }

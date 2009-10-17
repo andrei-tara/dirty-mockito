@@ -12,13 +12,13 @@ import java.lang.reflect.Type;
 
 import org.junit.Before;
 
-import dirty.mockito.junit.interceptors.ActiveTestInterceptor;
+import dirty.mockito.junit.rules.ActiveTestRule;
 
 /**
  * <p>
  * JUnit 4 test parameterized base class that performs instantiation, mocking
- * and injection of mocks. Uses an internal {@link ActiveTestInterceptor} to
- * perform mocking of elements annotated with <a href=
+ * and injection of mocks. Uses an internal {@link ActiveTestRule} to perform
+ * mocking of elements annotated with <a href=
  * "http://mockito.googlecode.com/svn/branches/1.6/javadoc/org/mockito/Mock.html"
  * ><code>&#064;Mock</code></a> then inject those mocks into fields (in the
  * object under test) annotated with <code>&#064;Autowired</code>.
@@ -85,17 +85,16 @@ import dirty.mockito.junit.interceptors.ActiveTestInterceptor;
 public class ActiveTest<T> {
 
     /**
-     * The {@link ActiveTestInterceptor} that does all the mojo.
+     * The {@link ActiveTestRule} that does all the mojo.
      */
-    private final ActiveTestInterceptor<T> activeTestInterceptor;
+    private final ActiveTestRule<T> activeTestrule;
 
     /**
      *
      */
     public ActiveTest() {
         final Class<T> classUnderTest = determineTypeParameter();
-        this.activeTestInterceptor = ActiveTestInterceptor
-                .thatWorksOn(classUnderTest);
+        this.activeTestrule = ActiveTestRule.thatWorksOn(classUnderTest);
     }
 
     /**
@@ -119,10 +118,13 @@ public class ActiveTest<T> {
 
     /**
      * For now, we do it this way. When JUnit >= 4.7.1 comes out, we can fully
-     * make use of ActiveTestInterceptor as a proper interceptor. Currently, running
+     * make use of ActiveTestRule as a proper rule. Currently, if we use
+     * ActiveTestRule as a @Rule, then end-user @Before methods will execute
+     * <em>first</em> and any fields we're supposed to supply will be
+     * <code>null</code>.
      */
     @Before
     public final void initMocks() {
-        activeTestInterceptor.initMocks(this);
+        activeTestrule.initMocks(this);
     }
 }

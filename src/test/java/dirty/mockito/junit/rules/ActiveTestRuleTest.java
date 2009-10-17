@@ -5,7 +5,7 @@
  *
  * Created Aug 14, 2009
  */
-package dirty.mockito.junit.interceptors;
+package dirty.mockito.junit.rules;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -19,18 +19,18 @@ import dirty.mockito.Foo;
 import dirty.mockito.UsesFoo;
 
 /**
- * JUnit test for {@link ActiveTestInterceptor}.
+ * JUnit test for {@link ActiveTestRule}.
  *
  * @author Alistair A. Israel
  */
-public class ActiveTestInterceptorTest {
+public class ActiveTestRuleTest {
 
     /**
      *
      */
     @Rule
     // CHECKSTYLE:OFF
-    public final ActiveTestInterceptor<UsesFoo> activeTestInterceptor = ActiveTestInterceptor
+    public final ActiveTestRule<UsesFoo> activeTestRule = ActiveTestRule
             .thatWorksOn(UsesFoo.class);
     // CHECKSTYLE:ON
 

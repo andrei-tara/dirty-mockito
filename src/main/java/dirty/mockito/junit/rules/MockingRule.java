@@ -5,7 +5,7 @@
  *
  * Created Aug 14, 2009
  */
-package dirty.mockito.junit.interceptors;
+package dirty.mockito.junit.rules;
 
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
@@ -13,14 +13,14 @@ import org.junit.runners.model.Statement;
 
 /**
  * <p>
- * A base class for JUnit interceptors ({@link org.junit.Rule}) that construct
- * (mock) object test scaffolding.
+ * A base class for JUnit {@link org.junit.Rule}s that construct (mock) object
+ * test scaffolding.
  * </p>
  *
  * @author Alistair A. Israel
  * @since 0.2
  */
-public abstract class MockingInterceptor implements MethodRule {
+public abstract class MockingRule implements MethodRule {
 
     /**
      * {@inheritDoc}
