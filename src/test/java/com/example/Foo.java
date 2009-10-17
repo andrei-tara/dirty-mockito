@@ -5,7 +5,7 @@
  *
  * Created May 29, 2009
  */
-package dirty.mockito;
+package com.example;
 
 /**
  * Just so we have something to mock.

@@ -5,7 +5,7 @@
  *
  * Created May 29, 2009
  */
-package dirty.mockito;
+package com.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -50,7 +50,7 @@ public final class UsesFoo {
     }
 
     /**
-     * @see dirty.mockito.Foo#bar()
+     * @see com.example.Foo#bar()
      */
     public void fooBar() {
         foo.bar();

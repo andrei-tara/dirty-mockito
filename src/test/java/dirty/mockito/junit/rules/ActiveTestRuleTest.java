@@ -15,8 +15,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import dirty.mockito.Foo;
-import dirty.mockito.UsesFoo;
+import com.example.Foo;
+import com.example.UsesFoo;
+
 
 /**
  * JUnit test for {@link ActiveTestRule}.
@@ -40,7 +41,7 @@ public class ActiveTestRuleTest {
     private Foo mockFoo;
 
     /**
-     * Test method for {@link dirty.mockito.UsesFoo#fooBar()}.
+     * Test method for {@link com.example.UsesFoo#fooBar()}.
      */
     @Test
     public final void testFooBar() {
