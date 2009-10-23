@@ -1,0 +1,29 @@
+#summary Simple mocking using MagicMocker
+#labels Featured
+
+= Mockito straight up =
+
+If you just want a little convenience with mocking objects using Mockito, then just use the `MagicMocker` rule.
+
+{{{
+public class MockJdbcTest {
+
+  @Rule
+  public MagicMocker magicMocker = new MagicMocker();
+
+  @Mock
+  private Resource mockResource;
+
+  @Test
+  public void testUseResource() {
+    UsesResource usesResource = new UsesResource();
+    usesResource.setResource(mockResource);
+    usesResource.useResource();
+
+    assertTrue(mockResource.isUsed());
+
+    verify(mockResource).use();
+  }
+}}}
+
+*IMPORTANT NOTE:* As of JUnit 4.7, `@Before` methods execute _before_ `@Rule`s, hence, any `@Mock`s initialized by `MagicMocker` will be unavailable in a test's `@Before` methods. JUnit 4.8 will execute rules before `@Before` methods and will make it possible to move initialization of `UsesResource` into a `@Before` method.
