@@ -24,7 +24,7 @@ public class WidgetDaoTest extends ActiveTest<WidgetDao> {
 
     assertSame(widget, widgetDao.findByName("Bob"));
 
-    verify(query).setParameter("name", "Foo");
+    verify(query).setParameter("name", "Bob");
   }
 
 }
