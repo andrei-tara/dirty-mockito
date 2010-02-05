@@ -42,6 +42,8 @@ public abstract class MockingRule implements MethodRule {
     }
 
     /**
+     * Subclasses should override this to perform actual mocking.
+     *
      * @param target
      *        the object we're constructing our mocks for
      */
