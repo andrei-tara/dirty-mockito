@@ -6,7 +6,7 @@
 If you just want a little convenience with mocking objects using Mockito, then just use the `MagicMocker` rule.
 
 {{{
-public class MockJdbcTest {
+public class UsesMockResourceTest {
 
   @Rule
   public MagicMocker magicMocker = new MagicMocker();
