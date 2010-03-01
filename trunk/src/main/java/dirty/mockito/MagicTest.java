@@ -8,8 +8,6 @@
 package dirty.mockito;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import org.junit.Before;
 
@@ -23,7 +21,7 @@ import dirty.mockito.utils.Reflection;
  * @author Alistair A. Israel
  * @since 0.1
  */
-public class MagicTest<T> {
+public class MagicTest<T> extends ParameterizedTest<T> {
 
     private final Class<T> classUnderTest;
 
@@ -32,23 +30,6 @@ public class MagicTest<T> {
      */
     public MagicTest() {
         this.classUnderTest = determineTypeParameter();
-    }
-
-    /**
-     * @return the Type parameter to our generic base class
-     */
-    @SuppressWarnings("unchecked")
-    private Class<T> determineTypeParameter() {
-        Class<?> specificClass = this.getClass();
-        Type genericSuperclass = specificClass.getGenericSuperclass();
-        while (!(genericSuperclass instanceof ParameterizedType) && specificClass != MagicTest.class) {
-            specificClass = specificClass.getSuperclass();
-            genericSuperclass = specificClass.getGenericSuperclass();
-        }
-        final ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
-
-        final Type firstTypeParameter = parameterizedType.getActualTypeArguments()[0];
-        return (Class<T>) firstTypeParameter;
     }
 
     /**
