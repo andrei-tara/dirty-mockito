@@ -7,9 +7,6 @@
  */
 package dirty.mockito;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 import org.junit.Rule;
 
 import dirty.mockito.junit.rules.ActiveTestRule;
@@ -74,7 +71,7 @@ import dirty.mockito.junit.rules.ActiveTestRule;
  *      target="_blank>&#064;Mock</a>
  * @since 0.1
  */
-public class ActiveTest<T> {
+public class ActiveTest<T> extends ParameterizedTest<T> {
 
     /**
      * The {@link ActiveTestRule} that does all the mojo.
@@ -90,22 +87,5 @@ public class ActiveTest<T> {
     public ActiveTest() {
         final Class<T> classUnderTest = determineTypeParameter();
         this.activeTestrule = ActiveTestRule.thatWorksOn(classUnderTest);
-    }
-
-    /**
-     * @return the Type parameter to our generic base class
-     */
-    @SuppressWarnings("unchecked")
-    private Class<T> determineTypeParameter() {
-        Class<?> specificClass = this.getClass();
-        Type genericSuperclass = specificClass.getGenericSuperclass();
-        while (!(genericSuperclass instanceof ParameterizedType) && specificClass != MagicTest.class) {
-            specificClass = specificClass.getSuperclass();
-            genericSuperclass = specificClass.getGenericSuperclass();
-        }
-        final ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
-
-        final Type firstTypeParameter = parameterizedType.getActualTypeArguments()[0];
-        return (Class<T>) firstTypeParameter;
     }
 }
