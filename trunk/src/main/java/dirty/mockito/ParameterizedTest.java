@@ -27,7 +27,7 @@ public abstract class ParameterizedTest<T> {
     protected final Class<T> determineTypeParameter() {
         Class<?> specificClass = this.getClass();
         Type genericSuperclass = specificClass.getGenericSuperclass();
-        while (!(genericSuperclass instanceof ParameterizedType) && specificClass != MagicTest.class) {
+        while (!(genericSuperclass instanceof ParameterizedType) && specificClass != ParameterizedTest.class) {
             specificClass = specificClass.getSuperclass();
             genericSuperclass = specificClass.getGenericSuperclass();
         }
