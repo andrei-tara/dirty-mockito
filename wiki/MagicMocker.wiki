@@ -1,5 +1,4 @@
 #summary Simple mocking using MagicMocker
-#labels Featured
 
 = Mockito straight up =
 
@@ -14,10 +13,15 @@ public class UsesMockResourceTest {
   @Mock
   private Resource mockResource;
 
+  private UsesResource usesResource;
+
+  @Before
+  public void setUp() {
+    usesResource = new UsesResource(mockResource);
+  }
+
   @Test
   public void testUseResource() {
-    UsesResource usesResource = new UsesResource();
-    usesResource.setResource(mockResource);
     usesResource.useResource();
 
     assertTrue(mockResource.isUsed());
@@ -26,4 +30,4 @@ public class UsesMockResourceTest {
   }
 }}}
 
-*IMPORTANT NOTE:* As of JUnit 4.7, `@Before` methods execute _before_ `@Rule`s, hence, any `@Mock`s initialized by `MagicMocker` will be unavailable in a test's `@Before` methods. JUnit 4.8 will execute rules before `@Before` methods and will make it possible to move initialization of `UsesResource` into a `@Before` method.
+*NOTE:* JUnit 4.7 executes `@Before` methods _before_ `@Rule`s. Hence, any `@Mock`s initialized by `MagicMocker` will be unavailable in a test's `@Before` methods. The above code sample will only work properly on JUnit 4.8 or higher.
