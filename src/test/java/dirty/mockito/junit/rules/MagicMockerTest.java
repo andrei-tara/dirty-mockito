@@ -10,6 +10,7 @@ package dirty.mockito.junit.rules;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -17,13 +18,12 @@ import org.mockito.Mock;
 import com.example.Foo;
 import com.example.UsesFoo;
 
-
 /**
  * JUnit test for {@link dirty.mockito.MagicMocker}.
- *
+ * 
  * @author Alistair A. Israel
  */
-public class MagicMockerTest {
+public final class MagicMockerTest {
 
     /**
      * {@link MagicMocker} does all the magic.
@@ -36,13 +36,22 @@ public class MagicMockerTest {
     @Mock
     private Foo mockFoo;
 
+    private UsesFoo usesFoo;
+
+    /**
+     * Called before test methods
+     */
+    @Before
+    public void setUp() {
+        usesFoo = new UsesFoo(mockFoo);
+    }
+
     /**
      * Test for {@link dirty.mockito.MagicMocker#setupMocks()}.
      */
     @Test
-    public final void testSetupMocks() {
+    public void testSetupMocks() {
         assertNotNull(mockFoo);
-        final UsesFoo usesFoo = new UsesFoo(mockFoo);
         usesFoo.fooBar();
         verify(mockFoo).bar();
     }
