@@ -1,4 +1,5 @@
 #summary Simple mocking using MagicMocker
+#labels Featured
 
 = Mockito straight up =
 
