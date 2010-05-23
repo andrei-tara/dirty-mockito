@@ -38,8 +38,7 @@ public class MagicTest<T> extends ParameterizedTest<T> {
      */
     @Before
     public final void instantiateObjectToTest() throws Exception {
-        final MagicTest<T> target = this;
-        for (final Field field : target.getClass().getDeclaredFields()) {
+        for (final Field field : this.getClass().getDeclaredFields()) {
             if (field.getType().equals(classUnderTest)) {
                 final T object = classUnderTest.newInstance();
                 Reflection.set(field).of(this).to(object);
