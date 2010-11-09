@@ -5,7 +5,7 @@
   <groupId>dirty-mockito</groupId>
   <artifactId>dirty-mockito</artifactId>
   <name>Dirty Mockito</name>
-  <version>0.3.1-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <description>Dirty Mockito: JUnit, Mockito, and then some</description>
@@ -28,14 +28,30 @@
   <properties>
     <!-- Use UTF-8 as the default source encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- The Spring framework version to use for all modules -->
+    <spring.version>3.0.2.RELEASE</spring.version>
   </properties>
 
   <dependencies>
     <!-- Spring Framework -->
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring</artifactId>
-      <version>2.5.6.SEC01</version>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Spring Framework -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Spring Framework -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
       <scope>compile</scope>
     </dependency>
     <!-- JPA -->
@@ -52,6 +68,12 @@
       <version>5</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
+      <optional>true</optional>
+    </dependency>
 
     <!--
       Unit testing dependencies
@@ -59,7 +81,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.8.2</version>
+      <version>1.8.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -101,7 +123,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.5</version>
         <configuration>
           <configLocation>etc/checkstyle.xml</configLocation>
           <consoleOutput>true</consoleOutput>
@@ -137,6 +159,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>2.0.4</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -156,7 +179,7 @@
       <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
-        <version>1.8</version>
+        <version>1.9</version>
       </extension>
     </extensions>
 
@@ -168,6 +191,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
         <configuration>
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
