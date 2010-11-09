@@ -154,6 +154,7 @@ public class ActiveTestRule<T> extends MockingRule {
      * @param clazz
      *        the class we're scanning
      */
+    @SuppressWarnings("deprecation")
     private void scan(final Object unitTest, final Class<?> clazz) {
         final AnnotationEngine annotationEngine = new GlobalConfiguration()
                 .getAnnotationEngine();
