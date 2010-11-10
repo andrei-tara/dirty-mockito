@@ -16,6 +16,7 @@ import org.mockito.configuration.AnnotationEngine;
 import org.mockito.exceptions.base.MockitoException;
 import org.mockito.internal.configuration.GlobalConfiguration;
 import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
@@ -210,10 +211,10 @@ public class ActiveTestRule<T> extends MockingRule {
                 if (JpaDaoSupport.class.isAssignableFrom(classUnderTest)) {
                     final String beanName = field.getName();
                     registerJpaDaoBeanDefinition(beanName);
-                    object = (T) beanFactory.getBean(beanName, classUnderTest);
+                    object = beanFactory.getBean(beanName, classUnderTest);
                 } else {
                     object = (T) beanFactory.createBean(classUnderTest,
-                            DefaultListableBeanFactory.AUTOWIRE_CONSTRUCTOR,
+                            AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR,
                             true);
                 }
                 try {
