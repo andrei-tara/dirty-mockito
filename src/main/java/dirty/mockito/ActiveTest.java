@@ -21,12 +21,12 @@ import dirty.mockito.junit.rules.ActiveTestRule;
  * <p>
  * Suppose we have a JPA DAO class, that depends upon an <code>&#064;Autowired</code> <code>EntityManager</code>:
  * </p>
- * 
+ *
  * <pre>
  * public class WidgetDao {
  *     &#064;Autowired
  *     private EntityManager em;
- * 
+ *
  *     public Widget find(final Long id) {
  *         return em.find(Widget.class, id);
  *     }
@@ -36,13 +36,13 @@ import dirty.mockito.junit.rules.ActiveTestRule;
  * Now, to write a unit test for <code>WidgetDao</code> using <code>ActiveTest</code>, we simply extend
  * <code>ActiveTest&lt;WidgetDao&gt;</code>, declare a field of type <code>WidgetDao</code>, declare another field of
  * type <code>Entitymanager</code> and annotate that using <code>&#064;Mock</code>.
- * 
+ *
  * <pre>
  * public class WidgetDaoTest extends ActiveTest&lt;WidgetDao&gt; {
  *     private WidgetDao widgetDao;
  *     &#064;Mock
  *     private EntityManager em;
- * 
+ *
  *     &#064;Test
  *     public void testFind() {
  *         widgetDao.find(123L);
@@ -59,7 +59,7 @@ import dirty.mockito.junit.rules.ActiveTestRule;
  * Because Spring itself is used to inject <code>&#064;Autowired</code> dependencies, <code>ActiveTest</code> supports
  * field, setter and constructor-based injection.
  * </p>
- * 
+ *
  * @param <T>
  *        the type of the class to instantiate and inject mocks into
  * @author Alistair A. Israel

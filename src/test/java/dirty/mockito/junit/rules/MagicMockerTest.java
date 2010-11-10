@@ -20,7 +20,7 @@ import com.example.UsesFoo;
 
 /**
  * JUnit test for {@link dirty.mockito.MagicMocker}.
- * 
+ *
  * @author Alistair A. Israel
  */
 public final class MagicMockerTest {

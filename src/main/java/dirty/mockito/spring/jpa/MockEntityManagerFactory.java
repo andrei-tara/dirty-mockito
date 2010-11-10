@@ -64,8 +64,7 @@ public class MockEntityManagerFactory implements EntityManagerFactory {
      *
      * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
      */
-    @SuppressWarnings("unchecked")
-    public final EntityManager createEntityManager(final Map map) {
+    public final EntityManager createEntityManager(@SuppressWarnings("rawtypes") final Map map) {
         return mockEntityManager;
     }
 

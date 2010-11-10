@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 /**
  * Base class for ActiveTest and MagicTest. Just provides a {@link #determineTypeParameter()} helper method that allows
  * for run-time parameterized type discovery.
- * 
+ *
  * @param <T>
  *        a type
  * @author Alistair A. Israel

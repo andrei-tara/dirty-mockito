@@ -1,4 +1,8 @@
 /**
+ * Copyright (c) 2010 by Alistair A. Israel
+ *
+ * This software is made available under the terms of the MIT License.
+ *
  * Created May 23, 2010
  */
 package dirty.mockito;
@@ -14,18 +18,27 @@ import org.junit.runner.Result;
 /**
  * @author Alistair A. Israel
  */
-public class MagicTestTest {
+public final class MagicTestTest {
 
     private static boolean wasRun;
 
+    /**
+     *
+     */
     public static class ClassUnderTest {
 
     }
 
-    public static class ExtendsMagicTest extends MagicTest<ClassUnderTest> {
+    /**
+     *
+     */
+    public static final class ExtendsMagicTest extends MagicTest<ClassUnderTest> {
 
         private ClassUnderTest classUnderTest;
 
+        /**
+         *
+         */
         @Test
         public void testMagic() {
             wasRun = true;
@@ -34,6 +47,9 @@ public class MagicTestTest {
 
     }
 
+    /**
+     *
+     */
     @Test
     public void testExtendsMagicTest() {
         wasRun = false;
