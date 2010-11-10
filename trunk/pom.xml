@@ -125,7 +125,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.5</version>
         <configuration>
-          <configLocation>etc/checkstyle.xml</configLocation>
+          <configLocation>${basedir}/etc/checkstyle.xml</configLocation>
           <consoleOutput>true</consoleOutput>
           <propertyExpansion>config_loc=${project.basedir}/etc</propertyExpansion>
           <failsOnError>true</failsOnError>
@@ -174,8 +174,8 @@
 
     <extensions>
       <!--
-				SVN Wagon Provider (Java.net), needed to deploy to SVN
-			-->
+         SVN Wagon Provider (Java.net), needed to deploy to SVN
+      -->
       <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
