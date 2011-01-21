@@ -1,0 +1,254 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- The Basics -->
+  <groupId>dirty-mockito</groupId>
+  <artifactId>dirty-mockito</artifactId>
+  <name>Dirty Mockito</name>
+  <version>0.4</version>
+  <packaging>jar</packaging>
+
+  <description>Dirty Mockito: JUnit, Mockito, and then some</description>
+  <url>http://code.google.com/p/dirty-mockito/</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>LICENSE.txt</url>
+    </license>
+  </licenses>
+
+  <!-- SVN Configuration -->
+  <scm>
+    <connection>scm:svn:http://dirty-mockito.googlecode.com/svn/tags/dirty-mockito-0.4</connection>
+    <developerConnection>scm:svn:https://dirty-mockito.googlecode.com/svn/tags/dirty-mockito-0.4</developerConnection>
+    <url>http://code.google.com/p/dirty-mockito/source/browse/#svn/tags/dirty-mockito-0.4</url>
+  </scm>
+
+  <properties>
+    <!-- Use UTF-8 as the default source encoding -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- The Spring framework version to use for all modules -->
+    <spring.version>3.0.5.RELEASE</spring.version>
+  </properties>
+
+  <dependencies>
+    <!-- Spring Framework -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Spring Framework -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- Spring Framework -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <!-- JPA -->
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- JavaEE API (from http://download.java.net/maven/1) -->
+    <dependency>
+      <groupId>javaee</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
+      <optional>true</optional>
+    </dependency>
+
+    <!--
+      Unit testing dependencies
+    -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.8.5</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>java.net1</id>
+      <name>Java.Net Maven1 Repository, hosts the javaee-api
+        dependency</name>
+      <url>http://download.java.net/maven/1</url>
+      <layout>legacy</layout>
+    </repository>
+    <!-- The Java.net Maven 2 repo, where we get wagon-svn  -->
+    <repository>
+      <id>java.net2</id>
+      <name>Java.net Maven2 Repository</name>
+      <url>http://download.java.net/maven/2/</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <!-- Set Maven to compile for Java 5.0 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <!-- Configure the Maven Checkstyle plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <configLocation>${basedir}/etc/checkstyle.xml</configLocation>
+          <consoleOutput>true</consoleOutput>
+          <propertyExpansion>config_loc=${project.basedir}/etc</propertyExpansion>
+          <failsOnError>true</failsOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <failOnViolation>true</failOnViolation>
+              <violationSeverity>warning</violationSeverity>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Configure the Maven license plugin -->
+      <plugin>
+        <groupId>com.google.code.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.4.0</version>
+        <configuration>
+          <header>etc/license-header.txt</header>
+          <includes>
+            <include>src/**</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <!-- Configure the source plugin to execute before the install phase -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.0.4</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+    <extensions>
+      <!--
+         SVN Wagon Provider (Java.net), needed to deploy to SVN
+      -->
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
+    </extensions>
+
+  </build>
+
+  <reporting>
+    <plugins>
+      <!-- Generate Javadocs as part of project reports -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <links>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <!--
+        Configure the Maven source plugin to install the source along
+        with the project artifact. See
+        http://maven.apache.org/plugins/maven-source-plugin/usage.html
+      -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <developers>
+    <developer>
+      <id>aisrael</id>
+      <name>Alistair A. Israel</name>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <email>aisrael@gmail.com</email>
+    </developer>
+  </developers>
+
+  <!--
+    Use the Google Code public SVN as our Maven 2 distribution
+    repository
+  -->
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>dirty-mockito-releases</id>
+      <url>svn:https://dirty-mockito.googlecode.com/svn/maven2/releases/</url>
+    </repository>
+  </distributionManagement>
+
+</project>
