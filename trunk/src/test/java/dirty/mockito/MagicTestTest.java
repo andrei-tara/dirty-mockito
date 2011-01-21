@@ -25,20 +25,24 @@ public final class MagicTestTest {
     /**
      *
      */
-    public static class ClassUnderTest {
-
+    @Test
+    public void testExtendsMagicTest() {
+        wasRun = false;
+        final Result result = JUnitCore.runClasses(ExtendsMagicTest.class);
+        assertTrue(wasRun);
+        assertEquals(0, result.getFailureCount());
     }
 
     /**
-     *
+     * The unit test for {@link ClassUnderTest}, that extends {@link MagicTest}
      */
     public static final class ExtendsMagicTest extends MagicTest<ClassUnderTest> {
 
         private ClassUnderTest classUnderTest;
 
         /**
-         *
-         */
+        *
+        */
         @Test
         public void testMagic() {
             wasRun = true;
@@ -48,13 +52,10 @@ public final class MagicTestTest {
     }
 
     /**
-     *
+     * The class under test, which does nothing, really.
      */
-    @Test
-    public void testExtendsMagicTest() {
-        wasRun = false;
-        final Result result = JUnitCore.runClasses(ExtendsMagicTest.class);
-        assertTrue(wasRun);
-        assertEquals(0, result.getFailureCount());
+    public static class ClassUnderTest {
+
     }
+
 }
