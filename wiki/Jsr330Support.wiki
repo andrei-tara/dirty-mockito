@@ -3,9 +3,9 @@
 
 = Support for JSR-330 annotations =
 
-Since `dirty-mockito` uses Spring 3.x, then JSR-330 @Inject annotations are automatically supported. Using the same examples from the OneMinuteSummary, if we have:
+Since `dirty-mockito` uses Spring 3.x, then JSR-330 `@Inject` annotations are automatically supported. Using the same examples from the OneMinuteSummary:
 
-A class under test declares a dependency using @Inject
+If we have a class under test that declares a dependency using `@Inject`:
 {{{
 public class UsesFoo {
 
@@ -21,7 +21,7 @@ public class UsesFoo {
   }
 }
 }}}
-Then the same test as before should work:
+Then the following test should work as expected:
 {{{
 public class UsesFooTest extends ActiveTest<UsesFoo> {
 
