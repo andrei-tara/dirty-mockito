@@ -30,10 +30,9 @@ public class ActiveTestRuleTest {
      *
      */
     @Rule
-    // CHECKSTYLE:OFF
+    // SUPPRESS CHECKSTYLE VisibilityModifier
     public final ActiveTestRule<UsesFoo> activeTestRule = ActiveTestRule
             .thatWorksOn(UsesFoo.class);
-    // CHECKSTYLE:ON
 
     private UsesFoo usesFoo;
 

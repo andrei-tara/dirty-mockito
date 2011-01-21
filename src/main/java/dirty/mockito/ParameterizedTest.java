@@ -21,7 +21,7 @@ import java.lang.reflect.Type;
 public abstract class ParameterizedTest<T> {
 
     /**
-     * @return the Type parameter to our generic base class
+     * @return the type parameter to our generic base class
      */
     @SuppressWarnings("unchecked")
     protected final Class<T> determineTypeParameter() {
