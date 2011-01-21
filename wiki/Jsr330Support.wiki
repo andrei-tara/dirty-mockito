@@ -1,4 +1,5 @@
 #summary Demonstrates how dirty-mockito supports JSR-330 annotations (care of Spring 3).
+#labels Featured
 
 = Support for JSR-330 annotations =
 
