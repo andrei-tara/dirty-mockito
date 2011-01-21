@@ -77,9 +77,8 @@ public class ActiveTest<T> extends ParameterizedTest<T> {
      * The {@link ActiveTestRule} that does all the mojo.
      */
     @Rule
-    // CHECKSTYLE:OFF
+    // SUPPRESS CHECKSTYLE VisibilityModifier
     public final ActiveTestRule<T> activeTestrule;
-    // CHECKSTYLE:ON
 
     /**
      *

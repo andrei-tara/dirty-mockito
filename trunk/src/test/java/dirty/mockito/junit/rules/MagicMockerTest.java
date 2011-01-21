@@ -29,9 +29,8 @@ public final class MagicMockerTest {
      * {@link MagicMocker} does all the magic.
      */
     @Rule
-    // CHECKSTYLE:OFF
+    // SUPPRESS CHECKSTYLE VisibilityModifier
     public final MagicMocker magicMocker = new MagicMocker();
-    // CHECKSTYLE:ON
 
     @Mock
     private Foo mockFoo;
