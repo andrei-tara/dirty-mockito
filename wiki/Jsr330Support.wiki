@@ -1,0 +1,41 @@
+#summary Demonstrates how dirty-mockito supports JSR-330 annotations (care of Spring 3).
+
+= Support for JSR-330 annotations =
+
+Since `dirty-mockito` uses Spring 3.x, then JSR-330 @Inject annotations are automatically supported. Using the same examples from the OneMinuteSummary, if we have:
+
+A class under test declares a dependency using @Inject
+{{{
+public class UsesFoo {
+
+  @Inject
+  private Foo foo;
+
+  public Foo getFoo() {
+    return foo;
+  }
+
+  public void fooBar() {
+    foo.bar();
+  }
+}
+}}}
+Then the same test as before should work:
+{{{
+public class UsesFooTest extends ActiveTest<UsesFoo> {
+
+  private UsesFoo usesFoo;
+
+  @Mock
+  private Foo mockFoo;
+
+  @Test
+  public void testFooBar() {
+    assertNotNull(mockFoo);
+    assertNotNull(usesFoo);
+    assertSame(mockFoo, usesFoo.getFoo());
+    usesFoo.fooBar();
+    verify(mockFoo).bar();
+  }
+}
+}}}
